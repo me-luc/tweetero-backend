@@ -5,6 +5,8 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
+const userHeader = new Headers();
+
 // let users = [];
 // let tweets = [];
 
@@ -103,6 +105,7 @@ server.post("/sign-up", (req, res) => {
 	}
 
 	users.push(newUser);
+	userHeader.append("name", username);
 	res.status(201).send(`user created successfully`);
 	return;
 });
@@ -110,19 +113,21 @@ server.post("/sign-up", (req, res) => {
 /* --- POST A TWEET --- */
 server.post("/tweets", (req, res) => {
 	const newTweet = req.body;
-	const { username, tweet } = newTweet;
+	const { tweet } = newTweet;
 
-	if (!username || !tweet) {
+	if (!tweet) {
 		res.status(422).send("Formato inválido");
 		return;
 	}
+
+	const username = userHeader.get("name");
 
 	const searchedUser = users.find((user) => user.username == username);
 	if (!searchedUser) {
 		res.status(401).send("UNAUTHORIZED");
 		return;
 	}
-
+	newTweet.username = username;
 	newTweet.avatar = searchedUser.avatar;
 	tweets.push(newTweet);
 	res.status(201).send(`tweet created successfully`);
