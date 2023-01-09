@@ -5,84 +5,8 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-let users = [
-	{
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		username: "luc",
-		avatar: "hehehe",
-	},
-];
-let tweets = [
-	{
-		tweet: "1",
-		username: "luc",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "2",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "3",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "4",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "5",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "6",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "7",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "8",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "9",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "10",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	,
-	{
-		tweet: "11",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "12",
-		username: "mary",
-		avatar: "hehehe",
-	},
-	{
-		tweet: "13",
-		username: "mary",
-		avatar: "hehehe",
-	},
-];
+let users = [];
+let tweets = [];
 
 /* --- SIGN UP --- */
 server.post("/sign-up", (req, res) => {
