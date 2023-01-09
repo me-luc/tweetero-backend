@@ -18,6 +18,11 @@ server.post("/sign-up", (req, res) => {
 		return;
 	}
 
+	if (!typeof username === "string" || !typeof avatar === "string") {
+		res.status(400).send("user e/ou avatar tipo incorreto!");
+		return;
+	}
+
 	const isUserSignedUp = users.find((item) => item.username == username);
 
 	if (isUserSignedUp) {
@@ -41,6 +46,11 @@ server.post("/tweets", (req, res) => {
 	}
 
 	const username = req.headers.user;
+
+	if (!typeof tweet === "string") {
+		res.status(400).send("user e/ou avatar tipo incorreto!");
+		return;
+	}
 
 	const searchedUser = users.find((user) => user.username == username);
 	if (!searchedUser) {
