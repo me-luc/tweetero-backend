@@ -5,8 +5,6 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-const userHeader = new Headers();
-
 // let users = [];
 // let tweets = [];
 
@@ -105,7 +103,6 @@ server.post("/sign-up", (req, res) => {
 	}
 
 	users.push(newUser);
-	userHeader.append("name", username);
 	res.status(201).send(`user created successfully`);
 	return;
 });
@@ -120,7 +117,7 @@ server.post("/tweets", (req, res) => {
 		return;
 	}
 
-	const username = userHeader.get("name");
+	const username = req.headers.user;
 
 	const searchedUser = users.find((user) => user.username == username);
 	if (!searchedUser) {
@@ -156,7 +153,9 @@ server.get("/tweets/:username", (req, res) => {
 	res.send(userTweets);
 });
 
-server.listen(5000);
+server.listen(5000, function () {
+	console.log("server is running...");
+});
 
 // --- LIST OF STATUS CODES
 // 200: Ok => Significa que deu tudo certo com a requisição
