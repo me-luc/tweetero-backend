@@ -5,8 +5,84 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-let users = [];
-let tweets = [];
+let users = [
+	{
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		username: "luc",
+		avatar: "hehehe",
+	},
+];
+let tweets = [
+	{
+		tweet: "1",
+		username: "luc",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "2",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "3",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "4",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "5",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "6",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "7",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "8",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "9",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "10",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	,
+	{
+		tweet: "11",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "12",
+		username: "mary",
+		avatar: "hehehe",
+	},
+	{
+		tweet: "13",
+		username: "mary",
+		avatar: "hehehe",
+	},
+];
 
 /* --- SIGN UP --- */
 server.post("/sign-up", (req, res) => {
@@ -64,17 +140,10 @@ server.post("/tweets", (req, res) => {
 	return;
 });
 
-/* --- GET TWEETS --- */
-server.get("/tweets", (req, res) => {
-	const N_OF_TWEETS = 10;
-	const lastTweets = tweets.slice(-N_OF_TWEETS).reverse();
-	res.status(200).send(lastTweets);
-	return;
-});
-
 /* --- GET TWEETS FROM USER --- */
 server.get("/tweets/:username", (req, res) => {
 	const user = req.params.username;
+	let userTweets = [];
 
 	const searchedUser = users.find((item) => item.username == user);
 
@@ -82,13 +151,32 @@ server.get("/tweets/:username", (req, res) => {
 		res.status(404).send("Usuário não encontrado");
 	}
 
-	const userTweets = tweets.filter((tweet) => tweet.username == user);
+	userTweets = tweets.filter((tweet) => tweet.username == user);
+
 	res.status(200).send(userTweets.reverse());
 	return;
 });
 
 server.listen(5000, function () {
 	console.log("server is running...");
+});
+
+/* --- GET TWEETS --- */
+server.get("/tweets", (req, res) => {
+	const page = parseInt(req.query.page);
+	const N_OF_TWEETS = 10;
+	let lastTweets = tweets.slice(-N_OF_TWEETS).reverse();
+
+	if (page) {
+		const aux = page == 1 ? 0 : 1;
+		const start = (page - 1) * N_OF_TWEETS + aux;
+		const end = (page - 1) * N_OF_TWEETS + N_OF_TWEETS + 1;
+		console.log(start, end);
+		lastTweets = tweets.slice(start, end);
+	}
+
+	res.status(200).send(lastTweets);
+	return;
 });
 
 // --- LIST OF STATUS CODES
