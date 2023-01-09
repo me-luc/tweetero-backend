@@ -18,7 +18,7 @@ server.post("/sign-up", (req, res) => {
 		return;
 	}
 
-	if (!typeof username === "string" || !typeof avatar === "string") {
+	if (typeof username !== "string" || typeof avatar !== "string") {
 		res.status(400).send("user e/ou avatar tipo incorreto!");
 		return;
 	}
@@ -47,7 +47,7 @@ server.post("/tweets", (req, res) => {
 
 	const username = req.headers.user;
 
-	if (!typeof tweet === "string") {
+	if (typeof tweet !== "string") {
 		res.status(400).send("user e/ou avatar tipo incorreto!");
 		return;
 	}
@@ -83,7 +83,8 @@ server.get("/tweets/:username", (req, res) => {
 	}
 
 	const userTweets = tweets.filter((tweet) => tweet.username == user);
-	res.send(userTweets);
+	res.status(200).send(userTweets.reverse());
+	return;
 });
 
 server.listen(5000, function () {
